@@ -47,6 +47,57 @@ header ion-icon {
 
 /*  --------------------------------------------------   */
 
+/*  -------------------
+    |                 |
+    |    MAIN         |
+    |                 |
+    -------------------  */
+
+main {
+    margin-top: 105px;
+    margin-bottom: 80px;
+}
+
+.messages {
+    width: 100%;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    border-radius: 2px;
+}
+
+.messages h6 {
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.time {
+    margin: 0 10px;
+}
+
+.time h6 {
+    color: #AAAAAA;
+}
+
+.recipient {
+    margin-right: 5px;
+}
+.recipient span {
+    font-weight: bold;
+}
+
+.status {
+    background-color: #DCDCDC;
+}
+
+.private_message {
+    background-color: #FFDEDE;
+}
+
+
+
 
 /*  -------------------
     |                 |
@@ -91,3 +142,5 @@ footer ion-icon {
     font-style: italic;
     color: #000000;
 }
+
+/*  --------------------------------------------------   */
