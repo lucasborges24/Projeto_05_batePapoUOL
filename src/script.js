@@ -44,10 +44,17 @@ function putMessages(message) {
     let main = document.querySelector("main");
     main.innerHTML = "";
 
-    for (let i = 89; i < messages.length; i ++) {
+    for (let i = 78; i < messages.length; i ++) {
         main.innerHTML += divMessage(messages[i])
     }
+
+    setTimeout(scroll, 500)
     setInterval(refreshMessage, 3000)
+}
+
+function scroll() {
+    const lastMessage = document.querySelector("main .messages:last-child")
+    lastMessage.scrollIntoView();
 }
 
 function divMessage(mensagem) {
