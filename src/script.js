@@ -3,6 +3,7 @@ let UserNameReq
 
 
 sendUserName()
+intervals()
 
 
 function userName() {
@@ -20,13 +21,23 @@ function sendUserName() {
 
     requisicao.then(messages);
     requisicao.catch(treatError)
-    setInterval(connectionStable, 4000)
 }
 
+function intervals() {
+    setInterval(connectionStable, 2000)
+    setInterval(refreshMessage, 3000)
+}
 
 function connectionStable() {
     const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', UserNameReq);
+    requisicao.catch(Unlog)
 }
+
+function Unlog() {
+    window.location.reload()
+}
+
+
 
 function messages() {
     const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
@@ -47,12 +58,10 @@ function putMessages(message) {
     for (let i = 78; i < messages.length; i ++) {
         main.innerHTML += divMessage(messages[i])
     }
-
-    setTimeout(scroll, 500)
-    setInterval(refreshMessage, 3000)
+    scrolll();
 }
 
-function scroll() {
+function scrolll() {
     const lastMessage = document.querySelector("main .messages:last-child")
     lastMessage.scrollIntoView();
 }
