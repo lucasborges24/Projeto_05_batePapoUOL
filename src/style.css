@@ -49,6 +49,114 @@ header ion-icon {
 
 /*  -------------------
     |                 |
+    |    LOGIN        |
+    |                 |
+    -------------------  */
+
+.login {
+    width: 100%;
+}
+
+.img-login {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 72px auto;
+}
+
+.img-login img {
+    width: 130px;
+}
+
+.user-login {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.user-login-input {
+    margin: 20px auto;
+    position: relative;
+}
+
+.user-login input {
+    width: 261px;
+    height: 54px;
+    border-radius: 4px;
+    background: #FFFFFF;
+    border: 1px solid #D7D7D7;
+    outline: 0;
+    transition: 500ms;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    padding-left: 15px;
+    transition: 200ms;
+    
+}
+
+.user-login input::placeholder {
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 25px;
+    font-style: normal;
+    text-align: center;
+    color: #AEAEAE;
+}
+
+.user-login button {
+    padding: 1.3em 3em;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 2.5px;
+    font-weight: 500;
+    color: #000;
+    background-color: #fff;
+    border: none;
+    border-radius: 45px;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
+}
+
+.user-login button:hover {
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+    color: #fff;
+    transform: translateY(-7px);
+}
+
+.user-login button:active {
+    transform: translateY(-1px);
+}
+
+.loader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transform: translateY(-60%);
+    z-index: 1;
+}
+
+.spinner {
+    width: 100px;
+    height: 100px;
+}
+
+
+
+
+
+
+/*  -------------------
+    |                 |
     |    MAIN         |
     |                 |
     -------------------  */
@@ -60,11 +168,13 @@ main {
 
 .messages {
     width: 100%;
-    height: 40px;
+    min-height: 40px;
+    height: 110%;
     display: flex;
     align-items: center;
     margin-bottom: 4px;
     border-radius: 2px;
+    border: 1px solid #rgba(220,220,220, 0.3);
 }
 
 .messages h6 {
@@ -81,9 +191,14 @@ main {
     color: #AAAAAA;
 }
 
+.texto {
+    word-break: keep-all;
+}
+
 .recipient {
     margin-right: 5px;
 }
+
 .recipient span {
     font-weight: bold;
 }
@@ -95,6 +210,8 @@ main {
 .private_message {
     background-color: #FFDEDE;
 }
+
+/*  --------------------------------------------------   */
 
 
 
@@ -133,6 +250,7 @@ footer ion-icon {
     font-weight: 400;
     font-size: 18px;
     line-height: 21px;
+    outline: 0;
 }
 
 ::placeholder {
@@ -144,3 +262,8 @@ footer ion-icon {
 }
 
 /*  --------------------------------------------------   */
+
+.none {
+    display: none;
+    transition: 400ms ease-in-out;
+}

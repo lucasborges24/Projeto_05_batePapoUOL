@@ -2,47 +2,56 @@ let UserNameReq
 
 
 
-sendUserName()
-intervals()
+
+enterKeyboardMessage();
 
 
+// function to ask the user its name
 function userName() {
-    const UserName = prompt("Digite seu nome de usuário: ")
-    // const UserName = "calcinha preta"
-
+    const UserName = document.querySelector(".user-login-input input").value
     UserNameReq = {
         name: UserName
     }
 }
 
+// Send the UserName to the server
 function sendUserName() {
+    clearInterval(intervals)
     userName();
     const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', UserNameReq)
-
+    intervals();
+    loader();
     requisicao.then(messages);
-    requisicao.catch(treatError)
+    requisicao.catch(leadUserNameError)
 }
 
+function loader() {
+    const loaderzinho = document.querySelector(".loader")
+    const loginzinho = document.querySelector(".user-login")
+    loaderzinho.classList.remove("none")
+    loginzinho.classList.add("none")
+}
+function loginPage() {
+    document.querySelector("header").classList.remove("none")
+    document.querySelector("footer").classList.remove("none")
+    document.querySelector("main").classList.remove("none")
+}
+
+// Functions executed periodically 
 function intervals() {
-    setInterval(connectionStable, 2000)
-    setInterval(refreshMessage, 3000)
+    setInterval(connectionStable, 4000) // keep connection with the server
+    setInterval(refreshMessage, 3000) // refresh messages after 3s
 }
 
+// function to keep connection with the server
 function connectionStable() {
     const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/status', UserNameReq);
     requisicao.catch(Unlog)
 }
 
+// function to lead with connectionStable errors
 function Unlog() {
-    window.location.reload()
-}
-
-
-
-function messages() {
-    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
-
-    promise.then(putMessages)
+    window.location.reload() // if the UserName isn't send to server, the page are reloaded
 }
 
 function refreshMessage() {
@@ -50,20 +59,23 @@ function refreshMessage() {
     refresh.then(putMessages)
 }
 
+function messages() {
+    loginPage()
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/messages");
+    promise.then(putMessages);
+}
+
 function putMessages(message) {
     let messages = message.data
     let main = document.querySelector("main");
     main.innerHTML = "";
 
-    for (let i = 78; i < messages.length; i ++) {
-        main.innerHTML += divMessage(messages[i])
+    for (let i = 0; i < messages.length; i ++) {
+        if (messages[i].type !== "private_message" || messages[i] === UserNameReq.name) {
+            main.innerHTML += divMessage(messages[i])
+        }
     }
     scrolll();
-}
-
-function scrolll() {
-    const lastMessage = document.querySelector("main .messages:last-child")
-    lastMessage.scrollIntoView();
 }
 
 function divMessage(mensagem) {
@@ -74,13 +86,9 @@ function divMessage(mensagem) {
                 <h6>(${mensagem.time})</h6>
             </div>
             <div class="recipient">
-                <h6><span>${mensagem.from}</span></h6>
+                <h6><span>${mensagem.from}</span> ${mensagem.text}</h6>
             </div>
-            <div class="status">
-                <h6>
-                    ${mensagem.text}
-                </h6>
-            </div>
+
         </div>
         `
     } else if (mensagem.type === "message") {
@@ -90,13 +98,9 @@ function divMessage(mensagem) {
                 <h6>(${mensagem.time})</h6>
             </div>
             <div class="recipient">
-                <h6><span>${mensagem.from}</span> para <span>${mensagem.to}:</span></h6>
+                <h6><span>${mensagem.from}</span> para <span>${mensagem.to}:</span> ${mensagem.text}</h6>
             </div>
-            <div class="texto">
-                <h6>
-                    ${mensagem.text}
-                </h6>
-            </div>
+
         </div>
         `
     } else {
@@ -106,12 +110,7 @@ function divMessage(mensagem) {
                 <h6>(${mensagem.time})</h6>
             </div>
             <div class="recipient">
-                <h6><span>${mensagem.from}</span> reservadamente para <span>${mensagem.to}:</span></h6>
-            </div>
-            <div class="texto">
-                <h6>
-                    ${mensagem.text}
-                </h6>
+                <h6><span>${mensagem.from}</span> reservadamente para <span>${mensagem.to}:</span> ${mensagem.text}</h6>
             </div>
         </div>
         `
@@ -119,11 +118,17 @@ function divMessage(mensagem) {
     
 }
 
-function treatError(error) {
+function scrolll() {
+    const lastMessage = document.querySelector("main .messages:last-child")
+    lastMessage.scrollIntoView({behavior: "smooth"});
+}
+
+function leadUserNameError(error) {
     const invalideUser = (error.response.status === 400)
     let valideUser = (error.response.status === 200);
     if (invalideUser) {
-        sendUserName();
+        alert("Esse usuário já existe! Por favor, coloque outro!")
+        window.location.reload();
     }
 }
 
@@ -131,7 +136,7 @@ function sendMessage() {
     const objMessage = {
         from: UserNameReq.name,
         to: "Todos",
-        text: document.querySelector("input").value,
+        text: document.querySelector(".footer-input input").value,
         type: "message",
     }
 
@@ -142,8 +147,24 @@ function sendMessage() {
     requisicao.catch(sendError)
 }
 
+function enterKeyboardMessage() {
+    const input = document.querySelector(".footer-input") 
+    input.addEventListener('keydown', function(event) {
+        if (event.key === "Enter") {
+            sendMessage();
+        }
+    })
+
+    const login = document.querySelector(".user-login-input input")
+    login.addEventListener('keydown', function(event) {
+        if (event.key === "Enter") {
+            sendUserName();
+        }
+    })
+}
+
 function sendSucess() {
-    document.querySelector("input").value = ""
+    document.querySelector(".footer-input input").value = ""
 }
 
 function sendError() {
