@@ -1,6 +1,7 @@
 /* FONTS */
 @import url('https://fonts.googleapis.com/css2?family=Righteous&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
+
 /* GENERAL SETTINGS */
 * {
     box-sizing: border-box;
@@ -13,6 +14,8 @@ body {
     height: 100%;
     position: relative;
 }
+
+
 
 /*  -------------------
     |                 |
@@ -48,7 +51,7 @@ header ion-icon {
     cursor: pointer;
 }
 
-/*  --------------------------------------------------   */
+/*  ---------------------------------  */
 
 /*  -------------------
     |                 |
@@ -152,7 +155,7 @@ header ion-icon {
     height: 100px;
 }
 
-/*  --------------------------------------------------   */
+/*  -----------------------------   */
 
 /*  -------------------
     |                 |
@@ -242,11 +245,7 @@ header ion-icon {
     height: 20px;
     margin-right: 10px;
 }
-
-
-
-
-
+/*  -----------------------------   */
 
 
 /*  -------------------
@@ -262,6 +261,7 @@ main {
 
 .messages {
     width: 100%;
+
     min-height: 40px;
     height: 110%;
     display: flex;
@@ -285,8 +285,14 @@ main {
     color: #AAAAAA;
 }
 
+.recipient {
+    word-break: break-all;
+
+}
+
 .texto {
-    word-break: keep-all;
+    word-break: break-all;
+    width: 100%;
 }
 
 .recipient {
@@ -304,10 +310,7 @@ main {
 .private_message {
     background-color: #FFDEDE;
 }
-
-/*  --------------------------------------------------   */
-
-
+/*  -----------------------------   */
 
 
 /*  -------------------
@@ -365,7 +368,7 @@ footer ion-icon {
     color: #000000;
 }
 
-/*  --------------------------------------------------   */
+/*  -----------------------------   */
 
 .none {
     display: none;
