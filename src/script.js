@@ -1,10 +1,11 @@
 // GLOBAL VARIABLES
 let UserNameReq
 let contacts = [];
-let checkContact = ["", ""];
+let checkContact = ["Todos", "Público"];
 
 // ENABLE ENTER KEY FOR INPUTS
 enterKeyboardMessage();
+inputText()
 
 
 // function to ask the user its name
