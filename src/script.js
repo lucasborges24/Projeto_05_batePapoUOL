@@ -1,4 +1,6 @@
 let UserNameReq
+let contacts = [];
+let checkContact = ["", ""];
 
 
 
@@ -20,18 +22,16 @@ function sendUserName() {
     userName();
     const requisicao = axios.post('https://mock-api.driven.com.br/api/v6/uol/participants', UserNameReq)
     intervals();
-    loader();
+    document.querySelector(".loader").classList.remove("none");
+    document.querySelector(".user-login").classList.add("none");
     requisicao.then(messages);
     requisicao.catch(leadUserNameError)
 }
 
-function loader() {
-    const loaderzinho = document.querySelector(".loader")
-    const loginzinho = document.querySelector(".user-login")
-    loaderzinho.classList.remove("none")
-    loginzinho.classList.add("none")
-}
+
 function loginPage() {
+    document.querySelector(".loader").classList.add("none");
+    document.querySelector(".img-login").classList.add("none");
     document.querySelector("header").classList.remove("none")
     document.querySelector("footer").classList.remove("none")
     document.querySelector("main").classList.remove("none")
@@ -41,6 +41,7 @@ function loginPage() {
 function intervals() {
     setInterval(connectionStable, 4000) // keep connection with the server
     setInterval(refreshMessage, 3000) // refresh messages after 3s
+    setInterval(refreshContacts, 10000)
 }
 
 // function to keep connection with the server
@@ -71,7 +72,7 @@ function putMessages(message) {
     main.innerHTML = "";
 
     for (let i = 0; i < messages.length; i ++) {
-        if (messages[i].type !== "private_message" || messages[i] === UserNameReq.name) {
+        if (messages[i].type !== "private_message" || messages[i].from === UserNameReq.name || messages[i].to === UserNameReq.name) {
             main.innerHTML += divMessage(messages[i])
         }
     }
@@ -133,11 +134,21 @@ function leadUserNameError(error) {
 }
 
 function sendMessage() {
-    const objMessage = {
-        from: UserNameReq.name,
-        to: "Todos",
-        text: document.querySelector(".footer-input input").value,
-        type: "message",
+    let objMessage;
+    if (checkContact[1] === "Reservadamente") {
+        objMessage = {
+            from: UserNameReq.name,
+            to: checkContact[0],
+            text: document.querySelector(".footer-input input").value,
+            type: "private_message",
+        }
+    } else {
+        objMessage = {
+            from: UserNameReq.name,
+            to: checkContact[0],
+            text: document.querySelector(".footer-input input").value,
+            type: "message",
+        }
     }
 
     const requisicao = axios.post("https://mock-api.driven.com.br/api/v6/uol/messages", objMessage);
@@ -169,4 +180,94 @@ function sendSucess() {
 
 function sendError() {
     window.location.reload()
+}
+
+function sidebar() {
+    const shadow = document.querySelector(".shadow").classList.remove("none")
+    const sidebar = document.querySelector(".sidebar").classList.remove("none")
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants")
+    promise.then(sidebarContact)
+}
+
+function sidebarContact(contact) {
+    contacts = [];
+    for (let i = 0; i < contact.data.length; i++) {
+        contacts.push(contact.data[i].name);
+    }
+    writeContact()
+}
+
+function writeContact() {
+    const contatos = document.querySelector(".contacts");
+    contatos.innerHTML = `<div class="contact" onclick="check(this)">
+        <div class="contact-information">
+            <img src="/image/all.svg" alt="All">
+            <p>Todos</p>
+        </div>
+        <div class="check-contact none">
+            <img src="/image/check.svg" alt="check">
+        </div>
+    </div>`;
+    for (let i = 0; i < contacts.length; i++) {
+        contatos.innerHTML += `
+        <div class="contact" onclick="check(this)">
+            <div class="contact-information" >
+                <img src="/image/contact.svg" alt="${contacts[i]}">
+                <p>${contacts[i]}</p>
+            </div>
+            <div class="check-contact none">
+                <img src="/image/check.svg" alt="check">
+            </div>
+        </div>
+        `
+    }
+}
+
+function check(element) {
+    const contatozinho = document.querySelectorAll(".contact")
+    const checkzinho = document.querySelectorAll(".check-contact")
+
+    for (let i = 0; i < contacts.length; i++) {
+        contatozinho[i].classList.remove("selected");
+        checkzinho[i].classList.add("none");
+    }
+
+    element.classList.add("selected");
+    element.childNodes[3].classList.remove("none");
+    checkContact[0] = element.childNodes[1].childNodes[3].innerHTML
+
+    inputText();
+    
+}
+
+function visibility(element) {
+    const visibilidadezinha = document.querySelectorAll(".visibility-type")
+    const checkzinho = document.querySelectorAll(".check-visibility")
+
+    for (let i = 0; i < 2; i++) {
+        visibilidadezinha[i].classList.remove("selected");
+        checkzinho[i].classList.add("none");
+    }
+
+    element.classList.add("selected");
+    element.childNodes[3].classList.remove("none");
+    checkContact[1] = element.childNodes[1].childNodes[3].innerHTML
+    inputText();
+}
+
+function inputText() {
+    const inputtext = document.querySelector("footer p")
+    inputtext.innerHTML = `Enviando para ${checkContact[0]} (${checkContact[1]})`
+}
+
+function refreshContacts() {
+    console.log("deu certo")
+    const promise = axios.get("https://mock-api.driven.com.br/api/v6/uol/participants");
+    promise.then(sidebarContact)
+}
+
+
+function backMessages() {
+    const shadow = document.querySelector(".shadow").classList.add("none")
+    const sidebar = document.querySelector(".sidebar").classList.add("none")
 }

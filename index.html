@@ -25,7 +25,7 @@
         <div class="logo-uol">
             <img src="/image/logo 1.svg" alt="Logo bate papo UOL">
         </div>
-        <div class="people-icon">
+        <div class="people-icon" onclick="sidebar()">
             <ion-icon name="people"></ion-icon>
         </div>
     </header>
@@ -45,7 +45,7 @@
             </div>
         </div>
     </div>
-    
+
     <div class="loader none">
         <div class="spinner">
             <svg class="circular" viewBox="25 25 50 50">
@@ -54,6 +54,41 @@
             </svg>
         </div>
         <h6>Entrando...</h6>
+    </div>
+
+    <div class="shadow none" onclick="backMessages()">
+    </div>
+
+    <div class="sidebar none">
+        <div class="choose-contact">
+            <h6>Escolha um contato para enviar mensagem:</h6>
+        </div>
+        <div class="contacts">
+           
+        </div>
+        <div class="visibility">
+            <h6>Escolha a visibilidade:</h6>
+        </div>
+        <div class="visibility-types">
+            <div class="visibility-type" onclick="visibility(this)">
+                <div class="visibility-type-information">
+                    <img src="/image/public.svg" alt="public">
+                    <p>Público</p>
+                </div>
+                <div class="check-visibility none">
+                    <img src="/image/check.svg" alt="check">
+                </div>
+            </div>
+            <div class="visibility-type" onclick="visibility(this)">
+                <div class="visibility-type-information">
+                    <img src="/image/private.svg" alt="private">
+                    <p>Reservadamente</p>
+                </div>
+                <div class="check-visibility none">
+                    <img src="/image/check.svg" alt="check">
+                </div>
+            </div>
+        </div>
     </div>
 
     <main class="none">
@@ -65,6 +100,7 @@
     <footer class="none">
         <div class="footer-input">
             <input class="footer-input" type="text" placeholder="Escreva aqui...">
+            <p></p>
         </div>
         <div class="footer-icon" onclick="sendMessage()">
             <ion-icon name="paper-plane-outline"></ion-icon>
