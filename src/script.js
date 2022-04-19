@@ -241,14 +241,23 @@ function check(element) {
     const contatozinho = document.querySelectorAll(".contact")
     const checkzinho = document.querySelectorAll(".check-contact")
 
+    if (element.childNodes[1].childNodes[3].innerHTML === checkContact[0]) {
+        element.classList.remove("selected");
+        element.childNodes[3].classList.add("none");
+    }
     for (let i = 0; i < contacts.length; i++) {
         contatozinho[i].classList.remove("selected");
         checkzinho[i].classList.add("none");
     }
 
-    element.classList.add("selected");
-    element.childNodes[3].classList.remove("none");
-    checkContact[0] = element.childNodes[1].childNodes[3].innerHTML
+    if (element.childNodes[1].childNodes[3].innerHTML !== checkContact[0]) {
+        element.classList.add("selected");
+        element.childNodes[3].classList.remove("none");
+        checkContact[0] = element.childNodes[1].childNodes[3].innerHTML
+    } else {
+        checkContact[0] = "Todos"
+    }
+    
 
     inputText();
 }
@@ -263,9 +272,14 @@ function visibility(element) {
         checkzinho[i].classList.add("none");
     }
 
-    element.classList.add("selected");
-    element.childNodes[3].classList.remove("none");
-    checkContact[1] = element.childNodes[1].childNodes[3].innerHTML
+    if (element.childNodes[1].childNodes[3].innerHTML !== checkContact[1]) {
+        element.classList.add("selected");
+        element.childNodes[3].classList.remove("none");
+        checkContact[1] = element.childNodes[1].childNodes[3].innerHTML
+    } else {
+        checkContact[1] = "Público"
+    }
+
     inputText();
 }
 
